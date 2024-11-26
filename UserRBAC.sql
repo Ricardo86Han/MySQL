@@ -1,4 +1,86 @@
 -- ----------------------------
+-- Table structure for sys_user
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user`;
+CREATE TABLE `sys_user`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户id',
+  `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户昵称',
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户名',
+  `gender` tinyint(1) NOT NULL DEFAULT 0 COMMENT '用户性别(0,未定义,1,男,2女)',
+  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户密码',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户头像',
+  `intro` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '个人简介',
+  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户邮箱',
+  `register_ip` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '注册ip',
+  `register_type` tinyint NOT NULL COMMENT '注册方式(0邮箱/姓名 1Gitee 2Github)',
+  `register_address` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '注册地址',
+  `login_ip` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '最近登录ip',
+  `login_address` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '最近登录地址',
+  `login_type` tinyint NULL DEFAULT NULL COMMENT '最近登录类型(0邮箱/姓名 1Gitee 2Github)',
+  `login_time` datetime NOT NULL COMMENT '用户最近登录时间',
+  `is_disable` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否禁用 (0否 1是)',
+  `create_time` datetime NOT NULL COMMENT '用户创建时间',
+  `update_time` datetime NOT NULL COMMENT '用户更新时间',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否删除（0：未删除，1：已删除）',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 88066036 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_user
+-- ----------------------------
+INSERT INTO `sys_user` VALUES (1, 'Admin', 'Admin', 0, '$2a$10$VyFtQ3T943p3NY5R0IxzIONjdqABmuCSGiHe5uV8d1ujLGYuS2KZe', 'https://image.kuailemao.xyz/blog/user/avatar/ce7998d8-43b5-4457-bc5c-4fa849160b3c.jpg', '我是一个伟大的站主~~', 'ruyusan@qq.com', '127.0.0.1', 0, '内网IP', '127.0.0.1', 'XX XX', 0, '2024-10-21 08:52:51', 0, '2023-10-13 15:16:01', '2024-10-21 08:52:51', 0);
+INSERT INTO `sys_user` VALUES (88065990, '测试用户', 'Test', 0, '$2a$10$VyFtQ3T943p3NY5R0IxzIONjdqABmuCSGiHe5uV8d1ujLGYuS2KZe', 'https://image.kuailemao.xyz/blog/user/avatar/ce7998d8-43b5-4457-bc5c-4fa849160b3c.jpg', '这是测试用户', NULL, '127.0.0.1', 0, '未知', '127.0.0.1', '未知', 0, '2024-10-21 16:29:53', 0, '2024-03-01 11:10:31', '2024-10-21 16:29:53', 0);
+
+
+
+
+
+-- ----------------------------
+-- Table structure for sys_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role`;
+CREATE TABLE `sys_role`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '角色id',
+  `role_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '角色名称',
+  `role_key` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '角色字符',
+  `status` tinyint NOT NULL DEFAULT 0 COMMENT '状态（0：正常，1：停用）',
+  `order_num` bigint NOT NULL COMMENT '排序',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '是否删除（0：未删除，1：已删除）',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_role
+-- ----------------------------
+INSERT INTO `sys_role` VALUES (1, '超级管理员', 'ADMIN', 0, 0, '最高管理者', '2023-11-17 15:19:01', '2023-12-14 16:47:07', 0);
+INSERT INTO `sys_role` VALUES (2, '测试角色', 'Test', 0, 1, '测试的用户，没有任何操作权限', '2023-11-17 15:19:06', '2024-07-31 08:41:49', 0);
+INSERT INTO `sys_role` VALUES (3, '普通用户', 'USER', 0, 3, '前台普通用户（前台用户默认角色）', '2023-12-03 21:12:24', '2023-12-14 17:15:52', 0);
+
+
+
+
+-- ----------------------------
+-- Table structure for sys_user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_role`;
+CREATE TABLE `sys_user_role`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` int NOT NULL COMMENT '用户id',
+  `role_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '角色id',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_user_role
+-- ----------------------------
+INSERT INTO `sys_user_role` VALUES (1, 1, '1');
+INSERT INTO `sys_user_role` VALUES (44, 88065990, '2');
+
+
+-- ----------------------------
 -- Table structure for sys_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_permission`;
@@ -111,96 +193,7 @@ INSERT INTO `sys_permission` VALUES (155, '修改黑名单', 'blog:black:update'
 INSERT INTO `sys_permission` VALUES (156, '查询黑名单', 'blog:black:select', 71, '2024-10-11 17:41:35', '2024-10-11 17:41:35', 0);
 INSERT INTO `sys_permission` VALUES (157, '删除黑名单', 'blog:black:delete', 71, '2024-10-11 17:41:47', '2024-10-11 17:41:47', 0);
 
--- ----------------------------
--- Table structure for sys_role
--- ----------------------------
-DROP TABLE IF EXISTS `sys_role`;
-CREATE TABLE `sys_role`  (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '角色id',
-  `role_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '角色名称',
-  `role_key` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '角色字符',
-  `status` tinyint NOT NULL DEFAULT 0 COMMENT '状态（0：正常，1：停用）',
-  `order_num` bigint NOT NULL COMMENT '排序',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '是否删除（0：未删除，1：已删除）',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
--- ----------------------------
--- Records of sys_role
--- ----------------------------
-INSERT INTO `sys_role` VALUES (1, '超级管理员', 'ADMIN', 0, 0, '最高管理者', '2023-11-17 15:19:01', '2023-12-14 16:47:07', 0);
-INSERT INTO `sys_role` VALUES (2, '测试角色', 'Test', 0, 1, '测试的用户，没有任何操作权限', '2023-11-17 15:19:06', '2024-07-31 08:41:49', 0);
-INSERT INTO `sys_role` VALUES (3, '普通用户', 'USER', 0, 3, '前台普通用户（前台用户默认角色）', '2023-12-03 21:12:24', '2023-12-14 17:15:52', 0);
-
--- ----------------------------
--- Table structure for sys_role_menu
--- ----------------------------
-DROP TABLE IF EXISTS `sys_role_menu`;
-CREATE TABLE `sys_role_menu`  (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `role_id` bigint NOT NULL COMMENT '角色id',
-  `menu_id` bigint NOT NULL COMMENT '菜单id',
-  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '是否删除（0：未删除，1：已删除）',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1431 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sys_role_menu
--- ----------------------------
-INSERT INTO `sys_role_menu` VALUES (1292, 1, 29, 0);
-INSERT INTO `sys_role_menu` VALUES (1295, 1, 31, 0);
-INSERT INTO `sys_role_menu` VALUES (1296, 1, 32, 0);
-INSERT INTO `sys_role_menu` VALUES (1297, 1, 33, 0);
-INSERT INTO `sys_role_menu` VALUES (1298, 1, 34, 0);
-INSERT INTO `sys_role_menu` VALUES (1299, 1, 43, 0);
-INSERT INTO `sys_role_menu` VALUES (1300, 1, 35, 0);
-INSERT INTO `sys_role_menu` VALUES (1301, 1, 37, 0);
-INSERT INTO `sys_role_menu` VALUES (1306, 1, 1, 0);
-INSERT INTO `sys_role_menu` VALUES (1307, 1, 3, 0);
-INSERT INTO `sys_role_menu` VALUES (1308, 1, 64, 0);
-INSERT INTO `sys_role_menu` VALUES (1310, 1, 2, 0);
-INSERT INTO `sys_role_menu` VALUES (1311, 1, 23, 0);
-INSERT INTO `sys_role_menu` VALUES (1312, 1, 24, 0);
-INSERT INTO `sys_role_menu` VALUES (1313, 1, 25, 0);
-INSERT INTO `sys_role_menu` VALUES (1314, 1, 26, 0);
-INSERT INTO `sys_role_menu` VALUES (1315, 1, 27, 0);
-INSERT INTO `sys_role_menu` VALUES (1316, 1, 44, 0);
-INSERT INTO `sys_role_menu` VALUES (1382, 1, 30, 0);
-INSERT INTO `sys_role_menu` VALUES (1384, 1, 36, 0);
-INSERT INTO `sys_role_menu` VALUES (1386, 1, 39, 0);
-INSERT INTO `sys_role_menu` VALUES (1392, 1, 42, 0);
-INSERT INTO `sys_role_menu` VALUES (1396, 1, 68, 0);
-INSERT INTO `sys_role_menu` VALUES (1398, 1, 65, 0);
-INSERT INTO `sys_role_menu` VALUES (1401, 2, 29, 0);
-INSERT INTO `sys_role_menu` VALUES (1402, 2, 31, 0);
-INSERT INTO `sys_role_menu` VALUES (1403, 2, 32, 0);
-INSERT INTO `sys_role_menu` VALUES (1404, 2, 33, 0);
-INSERT INTO `sys_role_menu` VALUES (1405, 2, 34, 0);
-INSERT INTO `sys_role_menu` VALUES (1406, 2, 43, 0);
-INSERT INTO `sys_role_menu` VALUES (1407, 2, 35, 0);
-INSERT INTO `sys_role_menu` VALUES (1408, 2, 37, 0);
-INSERT INTO `sys_role_menu` VALUES (1410, 2, 1, 0);
-INSERT INTO `sys_role_menu` VALUES (1411, 2, 3, 0);
-INSERT INTO `sys_role_menu` VALUES (1412, 2, 64, 0);
-INSERT INTO `sys_role_menu` VALUES (1413, 2, 2, 0);
-INSERT INTO `sys_role_menu` VALUES (1414, 2, 23, 0);
-INSERT INTO `sys_role_menu` VALUES (1415, 2, 24, 0);
-INSERT INTO `sys_role_menu` VALUES (1416, 2, 25, 0);
-INSERT INTO `sys_role_menu` VALUES (1417, 2, 27, 0);
-INSERT INTO `sys_role_menu` VALUES (1418, 2, 44, 0);
-INSERT INTO `sys_role_menu` VALUES (1420, 2, 30, 0);
-INSERT INTO `sys_role_menu` VALUES (1421, 2, 36, 0);
-INSERT INTO `sys_role_menu` VALUES (1422, 2, 39, 0);
-INSERT INTO `sys_role_menu` VALUES (1423, 2, 42, 0);
-INSERT INTO `sys_role_menu` VALUES (1424, 2, 68, 0);
-INSERT INTO `sys_role_menu` VALUES (1425, 2, 65, 0);
-INSERT INTO `sys_role_menu` VALUES (1427, 1, 21, 0);
-INSERT INTO `sys_role_menu` VALUES (1428, 2, 21, 0);
-INSERT INTO `sys_role_menu` VALUES (1429, 1, 28, 0);
-INSERT INTO `sys_role_menu` VALUES (1430, 2, 28, 0);
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -212,6 +205,7 @@ CREATE TABLE `sys_role_permission`  (
   `permission_id` bigint NOT NULL COMMENT '权限id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 327 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
 
 -- ----------------------------
 -- Records of sys_role_permission
@@ -358,52 +352,75 @@ INSERT INTO `sys_role_permission` VALUES (324, 1, 156);
 INSERT INTO `sys_role_permission` VALUES (325, 1, 157);
 INSERT INTO `sys_role_permission` VALUES (326, 2, 156);
 
--- ----------------------------
--- Table structure for sys_user
--- ----------------------------
-DROP TABLE IF EXISTS `sys_user`;
-CREATE TABLE `sys_user`  (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户id',
-  `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户昵称',
-  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户名',
-  `gender` tinyint(1) NOT NULL DEFAULT 0 COMMENT '用户性别(0,未定义,1,男,2女)',
-  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户密码',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户头像',
-  `intro` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '个人简介',
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户邮箱',
-  `register_ip` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '注册ip',
-  `register_type` tinyint NOT NULL COMMENT '注册方式(0邮箱/姓名 1Gitee 2Github)',
-  `register_address` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '注册地址',
-  `login_ip` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '最近登录ip',
-  `login_address` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '最近登录地址',
-  `login_type` tinyint NULL DEFAULT NULL COMMENT '最近登录类型(0邮箱/姓名 1Gitee 2Github)',
-  `login_time` datetime NOT NULL COMMENT '用户最近登录时间',
-  `is_disable` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否禁用 (0否 1是)',
-  `create_time` datetime NOT NULL COMMENT '用户创建时间',
-  `update_time` datetime NOT NULL COMMENT '用户更新时间',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否删除（0：未删除，1：已删除）',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 88066036 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+
+
+
 
 -- ----------------------------
--- Records of sys_user
+-- Table structure for sys_role_menu
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'Admin', 'Admin', 0, '$2a$10$VyFtQ3T943p3NY5R0IxzIONjdqABmuCSGiHe5uV8d1ujLGYuS2KZe', 'https://image.kuailemao.xyz/blog/user/avatar/ce7998d8-43b5-4457-bc5c-4fa849160b3c.jpg', '我是一个伟大的站主~~', 'ruyusan@qq.com', '127.0.0.1', 0, '内网IP', '127.0.0.1', 'XX XX', 0, '2024-10-21 08:52:51', 0, '2023-10-13 15:16:01', '2024-10-21 08:52:51', 0);
-INSERT INTO `sys_user` VALUES (88065990, '测试用户', 'Test', 0, '$2a$10$VyFtQ3T943p3NY5R0IxzIONjdqABmuCSGiHe5uV8d1ujLGYuS2KZe', 'https://image.kuailemao.xyz/blog/user/avatar/ce7998d8-43b5-4457-bc5c-4fa849160b3c.jpg', '这是测试用户', NULL, '127.0.0.1', 0, '未知', '127.0.0.1', '未知', 0, '2024-10-21 16:29:53', 0, '2024-03-01 11:10:31', '2024-10-21 16:29:53', 0);
-
--- ----------------------------
--- Table structure for sys_user_role
--- ----------------------------
-DROP TABLE IF EXISTS `sys_user_role`;
-CREATE TABLE `sys_user_role`  (
+DROP TABLE IF EXISTS `sys_role_menu`;
+CREATE TABLE `sys_role_menu`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `user_id` int NOT NULL COMMENT '用户id',
-  `role_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '角色id',
+  `role_id` bigint NOT NULL COMMENT '角色id',
+  `menu_id` bigint NOT NULL COMMENT '菜单id',
+  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '是否删除（0：未删除，1：已删除）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1431 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of sys_user_role
+-- Records of sys_role_menu
 -- ----------------------------
-INSERT INTO `sys_user_role` VALUES (1, 1, '1');
-INSERT INTO `sys_user_role` VALUES (44, 88065990, '2');
+INSERT INTO `sys_role_menu` VALUES (1292, 1, 29, 0);
+INSERT INTO `sys_role_menu` VALUES (1295, 1, 31, 0);
+INSERT INTO `sys_role_menu` VALUES (1296, 1, 32, 0);
+INSERT INTO `sys_role_menu` VALUES (1297, 1, 33, 0);
+INSERT INTO `sys_role_menu` VALUES (1298, 1, 34, 0);
+INSERT INTO `sys_role_menu` VALUES (1299, 1, 43, 0);
+INSERT INTO `sys_role_menu` VALUES (1300, 1, 35, 0);
+INSERT INTO `sys_role_menu` VALUES (1301, 1, 37, 0);
+INSERT INTO `sys_role_menu` VALUES (1306, 1, 1, 0);
+INSERT INTO `sys_role_menu` VALUES (1307, 1, 3, 0);
+INSERT INTO `sys_role_menu` VALUES (1308, 1, 64, 0);
+INSERT INTO `sys_role_menu` VALUES (1310, 1, 2, 0);
+INSERT INTO `sys_role_menu` VALUES (1311, 1, 23, 0);
+INSERT INTO `sys_role_menu` VALUES (1312, 1, 24, 0);
+INSERT INTO `sys_role_menu` VALUES (1313, 1, 25, 0);
+INSERT INTO `sys_role_menu` VALUES (1314, 1, 26, 0);
+INSERT INTO `sys_role_menu` VALUES (1315, 1, 27, 0);
+INSERT INTO `sys_role_menu` VALUES (1316, 1, 44, 0);
+INSERT INTO `sys_role_menu` VALUES (1382, 1, 30, 0);
+INSERT INTO `sys_role_menu` VALUES (1384, 1, 36, 0);
+INSERT INTO `sys_role_menu` VALUES (1386, 1, 39, 0);
+INSERT INTO `sys_role_menu` VALUES (1392, 1, 42, 0);
+INSERT INTO `sys_role_menu` VALUES (1396, 1, 68, 0);
+INSERT INTO `sys_role_menu` VALUES (1398, 1, 65, 0);
+INSERT INTO `sys_role_menu` VALUES (1401, 2, 29, 0);
+INSERT INTO `sys_role_menu` VALUES (1402, 2, 31, 0);
+INSERT INTO `sys_role_menu` VALUES (1403, 2, 32, 0);
+INSERT INTO `sys_role_menu` VALUES (1404, 2, 33, 0);
+INSERT INTO `sys_role_menu` VALUES (1405, 2, 34, 0);
+INSERT INTO `sys_role_menu` VALUES (1406, 2, 43, 0);
+INSERT INTO `sys_role_menu` VALUES (1407, 2, 35, 0);
+INSERT INTO `sys_role_menu` VALUES (1408, 2, 37, 0);
+INSERT INTO `sys_role_menu` VALUES (1410, 2, 1, 0);
+INSERT INTO `sys_role_menu` VALUES (1411, 2, 3, 0);
+INSERT INTO `sys_role_menu` VALUES (1412, 2, 64, 0);
+INSERT INTO `sys_role_menu` VALUES (1413, 2, 2, 0);
+INSERT INTO `sys_role_menu` VALUES (1414, 2, 23, 0);
+INSERT INTO `sys_role_menu` VALUES (1415, 2, 24, 0);
+INSERT INTO `sys_role_menu` VALUES (1416, 2, 25, 0);
+INSERT INTO `sys_role_menu` VALUES (1417, 2, 27, 0);
+INSERT INTO `sys_role_menu` VALUES (1418, 2, 44, 0);
+INSERT INTO `sys_role_menu` VALUES (1420, 2, 30, 0);
+INSERT INTO `sys_role_menu` VALUES (1421, 2, 36, 0);
+INSERT INTO `sys_role_menu` VALUES (1422, 2, 39, 0);
+INSERT INTO `sys_role_menu` VALUES (1423, 2, 42, 0);
+INSERT INTO `sys_role_menu` VALUES (1424, 2, 68, 0);
+INSERT INTO `sys_role_menu` VALUES (1425, 2, 65, 0);
+INSERT INTO `sys_role_menu` VALUES (1427, 1, 21, 0);
+INSERT INTO `sys_role_menu` VALUES (1428, 2, 21, 0);
+INSERT INTO `sys_role_menu` VALUES (1429, 1, 28, 0);
+INSERT INTO `sys_role_menu` VALUES (1430, 2, 28, 0);
+
